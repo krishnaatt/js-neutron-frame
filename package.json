@@ -1,6 +1,6 @@
 {
     "name": "js-neutron-frame",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Node project to have data manipulation and analysis, parallel to pandas",
     "main": "src/index.js",
     "scripts": {
