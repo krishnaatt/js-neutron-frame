@@ -1,0 +1,41 @@
+{
+    "name": "js-neutron-frame",
+    "version": "1.0.0",
+    "description": "Node project to have data manipulation and analysis, parallel to pandas",
+    "main": "src/index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/krishnaatt/js-neutron-frame.git"
+    },
+    "keywords": [
+        "pandas",
+        "node-pandas",
+        "nodepandas",
+        "dataframe",
+        "data",
+        "analysis",
+        "data",
+        "manipulation",
+        "median",
+        "mode",
+        "mean"
+    ],
+    "author": "krishnaatt",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/krishnaatt/js-neutron-frame/issues"
+    },
+    "homepage": "https://github.com/krishnaatt/js-neutron-frame#readme",
+    "dependencies": {
+        "@types/node": "^20.4.5",
+        "csv-parser": "^3.0.0",
+        "lodash": "^4.17.21",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.1.6",
+        "xlsx": "^0.18.5"
+    },
+    "type": "module"
+}
