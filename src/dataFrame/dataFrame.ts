@@ -84,13 +84,22 @@ export class DataFrame {
         return columnDataTypes;
     }
 
-    public renameColumn(currentName: string, newName: string): void {
-        const columnIndex = this.columns.indexOf(currentName);
-        if (columnIndex !== -1) {
-            this.columns[columnIndex] = newName;
-        } else {
-            throw new Error(`Column "${currentName}" does not exist.`);
+    public renameColumn(oldColumnName: string, newColumnName: string): void {
+        const columnIndex = this.columns.indexOf(oldColumnName);
+        if (columnIndex === -1) {
+            throw new Error(`Column "${oldColumnName}" does not exist in the DataFrame.`);
         }
+
+        // Rename the column
+        this.columns[columnIndex] = newColumnName;
+
+        // Update the corresponding keys in the rows
+        this.data.forEach((row) => {
+            if (oldColumnName in row) {
+                row[newColumnName] = row[oldColumnName];
+                delete row[oldColumnName];
+            }
+        });
     }
 
     public dropColumn(columnName: string): void {
