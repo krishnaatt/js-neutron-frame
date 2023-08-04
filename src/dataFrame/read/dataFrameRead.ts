@@ -34,7 +34,7 @@ export async function readCSV(filePath: string): Promise<DataFrame> {
         const df = createDataFrame(data, columns);
         resolve(df);
       })
-      .on('error', (err) => {
+      .on('error', (err: any) => {
         reject(err);
       });
   });
