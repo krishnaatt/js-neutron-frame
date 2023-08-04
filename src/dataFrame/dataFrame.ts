@@ -128,21 +128,32 @@ export class DataFrame {
         return DataFrame.createStatic(selectedData, selectedColumns);
     }
 
-    public where(...conditions: string[]): DataFrame {
-        const filteredData: DataFrameRow[] = this.data.filter((row) => this.evaluateConditions(row, conditions));
-        return DataFrame.createStatic(filteredData, this.columns);
-    }
+    public where(conditions: Array<{ column: string; operator: string; value: any }>): DataFrame {
+        const filteredData: DataFrameRow[] = this.data.filter((row) => {
+            return conditions.every((condition) => {
+                const { column, operator, value } = condition;
+                switch (operator) {
+                    case '==':
+                        return row[column] === value;
+                    case '!=':
+                        return row[column] !== value;
+                    case '>':
+                        return row[column] > value;
+                    case '>=':
+                        return row[column] >= value;
+                    case '<':
+                        return row[column] < value;
+                    case '<=':
+                        return row[column] <= value;
+                    default:
+                        return false;
+                }
+            });
+        });
 
-    private evaluateConditions(row: DataFrameRow, conditions: string[]): boolean {
-        const expression = conditions.join(' && ');
-        const keys = Object.keys(row);
-        const values = Object.values(row);
-
-        try {
-            return eval(expression);
-        } catch (error) {
-            throw new Error('Invalid condition.');
-        }
+        const filteredDataFrame = new DataFrame();
+        filteredData.forEach((row) => filteredDataFrame.addRow(row));
+        return filteredDataFrame;
     }
 
     public sortBy(columns: string[], directions: 'asc' | 'desc' | ('asc' | 'desc')[]): DataFrame {

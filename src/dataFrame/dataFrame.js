@@ -74,14 +74,20 @@ var DataFrame = /** @class */ (function () {
         });
         return columnDataTypes;
     };
-    DataFrame.prototype.renameColumn = function (currentName, newName) {
-        var columnIndex = this.columns.indexOf(currentName);
-        if (columnIndex !== -1) {
-            this.columns[columnIndex] = newName;
+    DataFrame.prototype.renameColumn = function (oldColumnName, newColumnName) {
+        var columnIndex = this.columns.indexOf(oldColumnName);
+        if (columnIndex === -1) {
+            throw new Error("Column \"".concat(oldColumnName, "\" does not exist in the DataFrame."));
         }
-        else {
-            throw new Error("Column \"".concat(currentName, "\" does not exist."));
-        }
+        // Rename the column
+        this.columns[columnIndex] = newColumnName;
+        // Update the corresponding keys in the rows
+        this.data.forEach(function (row) {
+            if (oldColumnName in row) {
+                row[newColumnName] = row[oldColumnName];
+                delete row[oldColumnName];
+            }
+        });
     };
     DataFrame.prototype.dropColumn = function (columnName) {
         var columnIndex = this.columns.indexOf(columnName);
@@ -109,25 +115,31 @@ var DataFrame = /** @class */ (function () {
         });
         return DataFrame.createStatic(selectedData, selectedColumns);
     };
-    DataFrame.prototype.where = function () {
-        var _this = this;
-        var conditions = [];
-        for (var _i = 0; _i < arguments.length; _i++) {
-            conditions[_i] = arguments[_i];
-        }
-        var filteredData = this.data.filter(function (row) { return _this.evaluateConditions(row, conditions); });
-        return DataFrame.createStatic(filteredData, this.columns);
-    };
-    DataFrame.prototype.evaluateConditions = function (row, conditions) {
-        var expression = conditions.join(' && ');
-        var keys = Object.keys(row);
-        var values = Object.values(row);
-        try {
-            return eval(expression);
-        }
-        catch (error) {
-            throw new Error('Invalid condition.');
-        }
+    DataFrame.prototype.where = function (conditions) {
+        var filteredData = this.data.filter(function (row) {
+            return conditions.every(function (condition) {
+                var column = condition.column, operator = condition.operator, value = condition.value;
+                switch (operator) {
+                    case '==':
+                        return row[column] === value;
+                    case '!=':
+                        return row[column] !== value;
+                    case '>':
+                        return row[column] > value;
+                    case '>=':
+                        return row[column] >= value;
+                    case '<':
+                        return row[column] < value;
+                    case '<=':
+                        return row[column] <= value;
+                    default:
+                        return false;
+                }
+            });
+        });
+        var filteredDataFrame = new DataFrame();
+        filteredData.forEach(function (row) { return filteredDataFrame.addRow(row); });
+        return filteredDataFrame;
     };
     DataFrame.prototype.sortBy = function (columns, directions) {
         var sortedData = this.data.slice();
