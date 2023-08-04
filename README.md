@@ -67,11 +67,13 @@ npm install js-neutron-frame
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- DOCUMENTATION AND EXAMPLES -->
-### import the library
+### Documentation and Examples
+
+#### import the library
 ```
 import { DataFrame, readCSV } from "js-neutron-frame";
 ```
-### Create DataFrame
+#### Create DataFrame
 1. Create an empty DataFrame:
 ```
 const df = new DataFrame();
