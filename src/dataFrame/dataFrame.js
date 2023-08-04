@@ -12,6 +12,11 @@ var DataFrame = /** @class */ (function () {
         return new DataFrame(data, columns);
     };
     DataFrame.prototype.addRow = function (row) {
+        for (var key in row) {
+            if (!this.columns.includes(key)) {
+                this.columns.push(key);
+            }
+        }
         this.data.push(row);
     };
     DataFrame.prototype.addColumn = function (name, values) {

@@ -14,6 +14,11 @@ export class DataFrame {
     }
 
     public addRow(row: DataFrameRow): void {
+        for (const key in row) {
+            if (!this.columns.includes(key)) {
+                this.columns.push(key);
+            }
+        }
         this.data.push(row);
     }
 
