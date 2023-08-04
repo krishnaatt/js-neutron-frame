@@ -1,5 +1,5 @@
-import { DataFrame } from '../dataFrame/dataFrame.js';
-import { readCSV } from '../dataFrame/read/dataFrameRead.js';
+import { DataFrame } from '../dataFrame/dataFrame';
+import { readCSV } from '../dataFrame/read/dataFrameRead';
 
 // Example usage:
 const df = await readCSV('../../oscar_age_male.csv');

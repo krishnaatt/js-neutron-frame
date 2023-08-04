@@ -1,4 +1,6 @@
 export class DataFrame {
+    data;
+    columns;
     constructor(data = [], columns = []) {
         this.data = data;
         this.columns = columns;
