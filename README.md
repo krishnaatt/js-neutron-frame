@@ -218,8 +218,142 @@ Output:
   Movie: 'string'
 }
 ```
+___
+
+10. **renameColumn**(currentName: string, newName: string): void
+Rename the currentName columns to the newName columns
+```
+df.renameColumn('Year', 'ExactYear');
+```
+
+___
+
+11. **dropColumn**(columnName: string): void
+Drops the column and its value
+```
+df.dropColumn('Index');
+```
+Output:
+```
+[
+  {
+    Year: 1928,
+    Age: 44,
+    Name: 'Emil Jannings',
+    Movie: 'The Last Command'
+  },
+  {
+    Year: 1929,
+    Age: 41,
+    Name: 'Warner Baxter',
+    Movie: 'In Old Arizona'
+  }
+]
+```
+
+___
+
+12. **selectColumns**(selectedColumns: string[]): DataFrame
+Returns a new DataFrame with selected columns.
+___
+
+13. **where**(...conditions: string[]): DataFrame
+Returns a filtered DataFrame where all the conditions are satisfied.
+```
+console.log(df.where([
+    { column: 'Age', operator: '<=', value: 40 },
+    { column: 'Year', operator: '>=', value: 2000 }
+]));
+```
+Output:
+```
+DataFrame {
+  data: [
+    {
+      Index: 73,
+      Year: 2000,
+      Age: 40,
+      Name: 'Kevin Spacey',
+      Movie: 'American Beauty'
+    },
+    {
+      Index: 74,
+      Year: 2001,
+      Age: 36,
+      Name: 'Russell Crowe',
+      Movie: 'Gladiator'
+    },
+    {
+      Index: 76,
+      Year: 2003,
+      Age: 29,
+      Name: 'Adrien Brody',
+      Movie: 'The Pianist'
+    },
+    {
+      Index: 78,
+      Year: 2005,
+      Age: 37,
+      Name: 'Jamie Foxx',
+      Movie: 'Ray'
+    },
+    {
+      Index: 79,
+      Year: 2006,
+      Age: 38,
+      Name: 'Philip Seymour Hoffman',
+      Movie: 'Capote'
+    },
+    {
+      Index: 85,
+      Year: 2012,
+      Age: 39,
+      Name: 'Jean Dujardin',
+      Movie: 'The Artist'
+    },
+    {
+      Index: 88,
+      Year: 2015,
+      Age: 33,
+      Name: 'Eddie Redmayne',
+      Movie: 'The Theory of Everything'
+    }
+  ],
+  columns: [ 'Index', 'Year', 'Age', 'Name', 'Movie' ]
+}
+```
+___
+
+14. **sortBy**(columns: string[], directions: 'asc' | 'desc' | ('asc' | 'desc')[]): DataFrame
+Returns a DataFrame sorted based on the given columns and order
+___
+
 
 ### Statistical Opeartions on the Data
+15. **mean**(column?: string): number
+Returns the mean of a column if given, else of the entire DataFrame
+```
+df.mean()
+```
+___
+16. **median**(column?: string): number
+Returns the median of a column if given, else of the entire DataFrame
+```
+df.median()
+```
+___
+17. **mode**(column?: string): any | any[]
+Returns the mode of a column if given, else of the entire DataFrame
+```
+df.mode()
+```
+___
+18. **std**(column?: string): number
+Returns the standard deviation of a given column, else of the entir DataFrame
+```
+df.std()
+```
+___
 
 _For more examples, please refer to the google doc [Documentation](https://example.com)_
 
